@@ -2,30 +2,18 @@
  * Created by bharath on 1/4/2016.
  */
 var express = require('express');
+var bodyParser = require('body-parser');
 
 var app = express();
 var PORT = process.env.PORT || 3000;
 
-var todos =[{
-    description : 'meet mom for lunch',
-    completed:false,
-    id:1
-},
-    {
-        description:'Go to Market',
-        completed:false,
-        id:2
-    },
-    {
-
-        description:'buy Milk',
-        completed:true,
-        id:3
 
 
+var todos =[];
 
-    }];
+var todoNextID = 1;
 
+app.use(bodyParser.json());
 
 app.get('/',function(req,res){
 
@@ -62,6 +50,20 @@ app.get('/todos/:id',function(req,res){
    // res.send('ID Requested : '+ req.params.id);
 
 });
+
+app.post('/todos',function(req,res){
+
+var body =req.body;
+    body.id=todoNextID++;
+
+    todos.push(body);
+    console.log('description : '+ body.description);
+    res.json(body);
+
+});
+
+
+
 
 
 app.listen(PORT,function(){
