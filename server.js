@@ -35,6 +35,16 @@ app.get('/todos', function (req, res) {
         fileredTODOs = _.where(fileredTODOs,{completed:false});
     }
 
+    if(queryParams.hasOwnProperty('q') && queryParams.q.length>0){
+        fileredTODOs = _.filter(fileredTODOs,function(arrElements){
+
+            return arrElements.description.indexOf(queryParams.q)>-1;
+
+        });
+
+
+    }
+
     res.json(fileredTODOs);
     //res.json(todos);
 
